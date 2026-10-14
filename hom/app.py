@@ -17,7 +17,6 @@ FONT_LABEL = ("Arial", 11, "bold")
 FONT_BUTTON = ("Arial", 12, "bold")
 
 root = tk.Tk()
-root.title("Учебное приложение")
 root.geometry("720x640")
 root.configure(bg=BG)
 
@@ -29,11 +28,11 @@ def clear_screen():
         w.destroy()
 
 def make_title(text):
-    return tk.Label(container, text=text, bg=BG, fg=FIELD_FG, font=FONT_TITLE)
+    return tk.Label(container, text=text, bg=BG, fg=FIELD_FG, font=FONT_TITLE).pack(pady=(0, 15))
 
 def make_label(text):
     return tk.Label(container, text=text, bg=BG, fg=FIELD_FG,
-                    font=FONT_LABEL, anchor="w")
+                    font=FONT_LABEL, anchor="w").pack(fill="x")
 
 def make_entry(password=False):
     entry = tk.Entry(container, font=FONT_BUTTON, bg=FIELD_BG, fg=FIELD_FG,
@@ -51,15 +50,12 @@ def try_login(login, password):
     login = login.strip()
     password = password.strip()
     if not login or not password:
-        messagebox.showwarning("Внимание", "Заполните логин и пароль.")
-        return
+       return messagebox.showwarning("Внимание", "Заполните логин и пароль.")
     user = find_user(login, password)
     if user is None:
-        messagebox.showerror("Ошибка входа","Вы ввели неверный логин или пароль.""Пожалуйста проверьте ещё раз введенные данные")
-        return
+       return messagebox.showerror("Ошибка входа","Вы ввели неверный логин или пароль.""Пожалуйста проверьте ещё раз введенные данные")
     if user["locked"]:
-        messagebox.showerror("Блокировка","Вы заблокированы. Обратитесь к администратору")
-        return
+      return  messagebox.showerror("Блокировка","Вы заблокированы. Обратитесь к администратору")
     CURRENT_USER = user
     messagebox.showinfo("Авторизация", "Вы успешно авторизовались")
     if user["role"] == "Администратор":
@@ -70,7 +66,7 @@ def try_login(login, password):
 def open_login():
     global ENTRY_LOGIN
     clear_screen()
-    make_title("Вход в систему").pack(pady=(0, 10))
+    make_title("Вход в систему")
 
     make_label("Логин").pack(fill="x")
     ENTRY_LOGIN = make_entry()
@@ -86,7 +82,7 @@ def open_login():
 
 def open_user():
     clear_screen()
-    make_title("Рабочее место пользователя").pack(pady=(0, 10))
+    make_title("Рабочее место пользователя")
     make_label(f"Вы вошли как: {CURRENT_USER['login']}").pack(fill="x", pady=(0, 6))
     make_label(f"Роль: {CURRENT_USER['role']}").pack(fill="x", pady=(0, 20))
     make_button("Выйти", open_login).pack(ipadx=24, ipady=4)
@@ -95,7 +91,7 @@ def open_edit_user():
     clear_screen()
     make_title("Изменение пользователя").pack(pady=(0, 10))
 
-    make_label("ФИО").pack(fill="x")
+    make_label("ФИО")
     e_name = make_entry()
     e_name.pack(fill="x", pady=(0, 8))
 
@@ -118,19 +114,7 @@ def open_edit_user():
 def open_admin():
     clear_screen()
     make_title("Панель администратора").pack(pady=(0, 5))
-    make_label(f"Вы вошли как: {CURRENT_USER['login']}").pack(fill="x", pady=(0, 10))
-
-    tree = ttk.Treeview(container,
-                        columns=("login", "full_name", "role", "locked"),
-                        show="headings", height=8)
-    tree.heading("login", text="Логин")
-    tree.heading("full_name", text="ФИО")
-    tree.heading("role", text="Роль")
-    tree.heading("locked", text="Заблокирован")
-    tree.column("login", width=120, anchor="w")
-    tree.column("full_name", width=180, anchor="w")
-    tree.column("role", width=130, anchor="w")
-    tree.column("locked", width=110, anchor="center")
+        #make_label("Пароль").pack(fill="x")
 
     row = tk.Frame(container, bg=BG)
     row.pack(fill="x")
@@ -141,19 +125,23 @@ def open_admin():
 def save_user(login, password, role, full_name):
     open_admin()
 
+
 def open_add_user():
     clear_screen()
     make_title("Новый пользователь").pack(pady=(0, 15))
+
     make_label("Логин").pack(fill="x")
     e_login = make_entry()
     e_login.pack(fill="x", pady=(0, 10))
+
     make_label("ФИО").pack(fill="x")
     e_name = make_entry()
     e_name.pack(fill="x", pady=(0, 10))
+
     make_label("Пароль").pack(fill="x")
     e_pass = make_entry()
     e_pass.pack(fill="x", pady=(0, 10))
-    make_button("Сохранить")
+    make_button("Сохранить",open_admin ).pack(fill="x", ipady=6)
     make_button("Отмена", open_admin).pack(fill="x", pady=(8, 0), ipady=4)
 
 open_login()
