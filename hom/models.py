@@ -1,10 +1,10 @@
 USERS = [
-{"login": "admin", "password": "admin", "role": "Администратор",
-"full_name": "Администратор Системы", "locked": False, "attempts": 0},
-{"login": "ivanov", "password": "1234", "role": "Пользователь",
-"full_name": "Иванов Иван", "locked": True, "attempts": 3},
-{"login": "petrov", "password": "qwerty", "role": "Пользователь",
-"full_name": "Петров Пётр", "locked": False, "attempts": 0},
+    {"login": "admin", "password": "admin", "role": "Администратор",
+    "full_name": "Администратор Системы", "locked": False},
+    {"login": "ivanov", "password": "1234", "role": "Пользователь",
+    "full_name": "Иванов Иван", "locked": True},
+    {"login": "petrov", "password": "qwerty", "role": "Пользователь",
+    "full_name": "Петров Пётр", "locked": False },
 ]
 
 def find_user(login, password):
